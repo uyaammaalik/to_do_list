@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container d-flex flex-column">
     <div class="row justify-content-center">
 
-        <div class="col-md-8">
+        <div class="col-8">
             <div class="card">
                 <div class="card-header">{{ __('ToDo List') }}
                     <a href="/listadd"><span class="btn btn-outline-primary btn-sm float-end">Add List</span></a>
@@ -114,7 +114,7 @@
 
                                                 {{-- Buttons for edit and delete tasks --}}
                                                 <div class="col-2">
-                                                    <a href="/addPlan/{{ $t->id }}" ><i class="fas fa-plus fa-lg" title="Add to Plan"></i></a>&nbsp;&nbsp;
+                                                    <a href="/addPlan/{{ $t->id }}" ><i class="fas fa-plus fa-lg" title="Add to Plan"></i></a>&nbsp;&nbsp;                                              
                                                     <a href="/editTask/{{ $t->id }}" ><i class="fas fa-edit fa-lg" title="Edit"></i></a>&nbsp;&nbsp;
                                                     {{-- <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $t->id }})">Delete</button> --}}
                                                     <a href="#"><i onclick="confirmDelete({{ $t->id }})" class="fas fa-trash fa-lg" title="Delete"></i></a>
@@ -275,8 +275,70 @@
         </div>
     </div>
 </div>
+
 @endsection
 
+{{-- @if ($addTask)
+    <script>
+        $(document).ready(function() {
+            // Trigger the modal using its ID
+            $('#EditPlan').modal('show');
+        });
+    </script>
+@endif
+ 
+  <!-- Modal -->
+  <div class="modal fade" id="EditPlan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="/planUpdate">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="mt-4 mb-4">Add to Plan or Reschedule</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+
+            
+                @csrf
+                <input type="hidden" name="id" value="{{ $task->id }}">
+                <input type="hidden" name="list_id" value="{{ $task->to_do_list_id }}">
+
+                <div class="form-group">
+                    <label for="due-date">Reschedule Due Date:</label>
+                    <input type="date" name="dueDate" class="form-control @error('dueDate') is-invalid @enderror" value="{{$task->due_date}}" id="due-date" >
+                        @error('dueDate')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                </div><br>
+                
+                <div class="form-group">
+                    <label for="plantime">Planning to do:</label>
+                    <input type="date" name="planDate" class="form-control @error('planDate') is-invalid @enderror" value="{{$task->planningToDo}}" id="plantime" >
+                        @error('planDate')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                </div><br>
+
+                <div class="form-group">
+                    
+                    <a href="/home" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+                
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Update Plan</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div> --}}
 
 <script>
 

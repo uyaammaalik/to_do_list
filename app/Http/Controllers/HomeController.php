@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\ToDoList;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,19 +24,15 @@ class HomeController extends Controller
     public function index()
     {
         $id = Auth::id();
-
-        $list = ToDoList::where('user_id', $id)->get();
-
-        //Calling all the task blongs to particular list
-        $task = Task::whereIn('to_do_list_id', $list->pluck('id'))->get();
-
         $today = Carbon::now()->toDateString();
+        $tomorrow = Carbon::now()->addDay()->toDateString();
 
-        $tomorrowdate = Carbon::now()->addDay()->toDateString();
+        $user = User::find($id);
 
-        $dailytasks = Task::where('planningToDo', $today)->where('user_id', $id)->get();
-
-        $tomorrow = Task::where('planningToDo', $tomorrowdate)->where('user_id', $id)->get();
+        $list = $user->toDoLists()->get();
+        $task = $user->tasks()->get();
+        $dailytasks = $user->tasks()->where('planningToDo', $today)->get();
+        $tomorrow = $user->tasks()->where('planningToDo', $tomorrow)->get();
 
         return view('home', compact('list', 'task', 'dailytasks', 'tomorrow', 'today'));
     }

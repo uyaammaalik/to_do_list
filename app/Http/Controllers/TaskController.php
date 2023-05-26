@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -100,14 +101,22 @@ class TaskController extends Controller
 
     public function addToPlan($id)
     {
+        $modal = true;
+
+
+
         // Retrieve the task
-        $task = Task::findOrFail($id);
+        $addTask = Task::findOrFail($id);
 
         return view('addPlan', compact('task'));
+
+        // Pass the variable to the view
+        //return view('/home', compact('addTask', 'modal'));
     }
 
     public function updatePlan(Request $req)
     {
+
         $task = Task::findOrFail($req->id);
 
         $task->due_date = $req->dueDate;
