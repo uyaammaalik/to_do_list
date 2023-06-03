@@ -15,14 +15,14 @@ cp .env.example .env
 ```
 In the .env file give database name in the database section. (created database name)
 
-### 4. Generate application key
-```
-php artisan key:generate
-```
-
-### 5. Install necessary dependencies
+### 4. Install necessary dependencies
 ```
 composer install
+```
+
+### 5. Generate application key
+```
+php artisan key:generate
 ```
 
 ### 6. Install ui dependencies
